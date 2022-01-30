@@ -21,49 +21,54 @@
       <!-- Sign up form -->
       <section class="signup">
         <div class="container">
+          {% if error %}
+          <p>{{ error }}</p>
+          {% endif %}
           <div class="signup-content">
             <div class="signup-form">
               <h2 class="form-title">Sign up</h2>
               <form method="POST" class="register-form" id="register-form">
+                {% csrf_token %}
                 <div class="form-group">
                   <label for="name"
                     ><i class="zmdi zmdi-account material-icons-name"></i
                   ></label>
-                  <input
-                    type="text"
-                    name="name"
-                    id="name"
-                    placeholder="Your Name"
-                  />
+                  {{ form.username }}
                 </div>
                 <div class="form-group">
                   <label for="email"><i class="zmdi zmdi-email"></i></label>
+                  {% comment %}
                   <input
                     type="email"
                     name="email"
                     id="email"
                     placeholder="Your Email"
                   />
+                  {% endcomment %} {{ form.email }}
                 </div>
                 <div class="form-group">
                   <label for="pass"><i class="zmdi zmdi-lock"></i></label>
+                  {% comment %}
                   <input
                     type="password"
                     name="pass"
                     id="pass"
                     placeholder="Password"
                   />
+                  {% endcomment %} {{ form.password }}
                 </div>
                 <div class="form-group">
                   <label for="re-pass"
                     ><i class="zmdi zmdi-lock-outline"></i
                   ></label>
+                  {% comment %}
                   <input
                     type="password"
                     name="re_pass"
                     id="re_pass"
                     placeholder="Repeat your password"
                   />
+                  {% endcomment %} {{ form.confirm_password }}
                 </div>
                 <div class="form-group form-button">
                   <input

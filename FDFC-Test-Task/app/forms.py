@@ -8,10 +8,10 @@ from django.utils.translation import gettext_lazy as _
 from app.models import CustomUser
 
 class RegistrationForm(forms.ModelForm):
-    username = forms.CharField(max_length=100, help_text='Enter a username (make sure that it is unique)', widget=forms.TextInput(attrs={'class' : 'input'}))
-    password = forms.CharField(widget=forms.PasswordInput(attrs={'class' : 'input'}))
-    confirm_password = forms.CharField(widget=forms.PasswordInput(attrs={'class' : 'input'}), help_text='Enter your password again')
-    email = forms.EmailField(help_text='Enter your email address', widget=forms.TextInput(attrs={'class' : 'input'}))
+    username = forms.CharField(max_length=100, widget=forms.TextInput(attrs={'class' : 'input', 'placeholder': "Your username"}))
+    password = forms.CharField(widget=forms.PasswordInput(attrs={'class' : 'input', 'placeholder': "Your password"}))
+    confirm_password = forms.CharField(widget=forms.PasswordInput(attrs={'class' : 'input', 'placeholder': "Repeat password"}))
+    email = forms.EmailField(widget=forms.TextInput(attrs={'class' : 'input', 'placeholder': "Your email"}))
 
     def clean_id_num(self):
         cleaned_data = super().clean()
@@ -41,8 +41,8 @@ class RegistrationForm(forms.ModelForm):
         fields = ('username', 'first_name', 'last_name', 'email', 'password', 'confirm_password')
 
 class MyAuthenticationForm(AuthenticationForm):
-    username = forms.CharField(label=_("Username"), help_text="Enter username", max_length=30, widget=forms.TextInput(attrs={'class' : 'input'}))
-    password = forms.CharField(label=_("Password"), widget=forms.PasswordInput(attrs={'class' : 'input'}))
+    username = forms.CharField(label=_("Username"), max_length=30, widget=forms.TextInput(attrs={'class' : 'input', 'placeholder': "Enter username"}))
+    password = forms.CharField(label=_("Password"), widget=forms.PasswordInput(attrs={'class' : 'input', 'placeholder': "Enter password"}))
 
     def __init__(self, *args, **kwargs):
         super(MyAuthenticationForm, self).__init__(*args, **kwargs)

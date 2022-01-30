@@ -4,7 +4,7 @@ from django.shortcuts import render
 
 from app.models import CustomUser
 from app.forms import MyAuthenticationForm, RegistrationForm
-from django.contrib.auth import login, authenticate
+from django.contrib.auth import login, logout, authenticate
 from django.views.decorators.csrf import csrf_protect
 
 @csrf_protect
@@ -14,7 +14,7 @@ def index(request):
     # return HttpResponse("Hello, world. This is the index file.")
     if request.user.is_authenticated:
         if request.user.state == "Step 1":
-            return render(request, 'step1.html', context={'user':request.user}) # will add step1Form
+            return render(request, 'index.html', context={'user':request.user}) # will add step1Form
         elif request.user.state == "Step 2":
             return render(request, 'step2.html', context={'user':request.user}) # will add step2Form
         elif request.user.state == "Step 3":
@@ -22,7 +22,7 @@ def index(request):
         return render(request, 'index.html', context={'user':request.user})
     
     form = MyAuthenticationForm(request.POST or None)
-    return render(request, 'login.html', {'form': form, 'error': 'sample'})
+    return render(request, 'login.html', {'form': form})
 
 def auth_login(request):
     if request.method == 'POST':
@@ -39,12 +39,14 @@ def auth_login(request):
             
     return render(request, 'login.html', {'error': 'Wrong credentials', 'form': MyAuthenticationForm()})
 
-def registerUser(request):
+@csrf_protect
+def registerView(request):
     if request.method == 'POST':
         
         form = RegistrationForm(request.POST)
-
+        print('we here')
         if form.is_valid():
+            print('form is valid')
 
             # Saving user to the database
             user = form.save()
@@ -55,18 +57,19 @@ def registerUser(request):
 
             # Automatically signing the user up
             raw_password = form.cleaned_data.get('password')
-            user = authenticate(username=user.username, password=raw_password)
+            # user = authenticate(username=user.username, password=raw_password)
             login(request, user, backend='django.contrib.auth.backends.ModelBackend')
             
             return redirect('index')
+        print(form)
+        print('form not valid')
+        return render(request, 'reg.html', {'form': RegistrationForm(), 'error': 'User already exists'})
 
     else:
         form = RegistrationForm()
 
-    return render(request, 'registration/login.html', {'form': form})
+    return render(request, 'reg.html', {'form': form})
 
-def registerView(request):
-    return render(request, 'reg.html', context={})
 def step1View(request):
     pass
 
@@ -76,3 +79,6 @@ def step2View(request):
 def step3View(request):
     pass
 
+def logoutUser(request):
+    logout(request)
+    return redirect('index')
