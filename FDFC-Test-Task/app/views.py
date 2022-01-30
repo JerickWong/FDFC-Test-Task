@@ -27,8 +27,9 @@ def index(request):
 def auth_login(request):
     if request.method == 'POST':
         form = MyAuthenticationForm(request.POST)
-        
+        print('it is post')
         if form.is_valid():
+            print('it is valid')
             username = request.POST.get('username')
             password = request.POST.get('password')
             user = authenticate(request=request, username=username, password=password)
@@ -36,6 +37,8 @@ def auth_login(request):
             if user is not None:
                 login(request, user, backend='django.contrib.auth.backends.ModelBackend')                        
                 return redirect('index')
+        print(form.error_messages)
+        print(form.is_valid())
             
     return render(request, 'login.html', {'error': 'Wrong credentials', 'form': MyAuthenticationForm()})
 
@@ -44,7 +47,7 @@ def registerView(request):
     if request.method == 'POST':
         
         form = RegistrationForm(request.POST)
-        print('we here')
+        
         if form.is_valid():
             print('form is valid')
 
@@ -61,8 +64,6 @@ def registerView(request):
             login(request, user, backend='django.contrib.auth.backends.ModelBackend')
             
             return redirect('index')
-        print(form)
-        print('form not valid')
         return render(request, 'reg.html', {'form': RegistrationForm(), 'error': 'User already exists'})
 
     else:

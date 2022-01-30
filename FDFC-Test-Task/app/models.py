@@ -1,3 +1,4 @@
+from enum import unique
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.contrib.auth.models import PermissionsMixin, UserManager
@@ -33,13 +34,14 @@ class CustomUser(AbstractUser):
     state = models.CharField(
         max_length=20, choices=STATE_CHOICES, default=STATE_STEP1
     )
+    username = models.CharField(_("username"), max_length=150, unique=True)
     
     # Step 1 - 
     first_name = models.CharField(_("first name"), max_length=150, blank=True)
     # Step 2
     last_name = models.CharField(_("last name"), max_length=150, blank=True)
     # Step 3
-    email = models.EmailField(_('email address'), unique=True)
+    email = models.EmailField(_('email address'))
     is_active = models.BooleanField(
         _("active"),
         default=True,
@@ -51,7 +53,7 @@ class CustomUser(AbstractUser):
     
     objects = UserManager()
 
-    USERNAME_FIELD = 'email'
+    USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = []
 
     class Meta:
