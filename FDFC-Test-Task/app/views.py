@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from django.shortcuts import render
 
 from app.models import CustomUser
-from app.forms import MyAuthenticationForm, RegistrationForm, Step1Form, Step2Form
+from app.forms import MyAuthenticationForm, RegistrationForm, Step1Form, Step2Form, Step3Form
 from django.contrib.auth import login, logout, authenticate
 from django.views.decorators.csrf import csrf_protect
 
@@ -18,8 +18,8 @@ def index(request):
         elif request.user.state == "Step 2":
             return render(request, 'step2.html', context={'form':Step2Form()}) # will add step2Form
         elif request.user.state == "Step 3":
-            return render(request, 'step3.html', context={'user':request.user}) # will add step3Form
-        return render(request, 'index.html', context={'user':request.user})
+            return render(request, 'step3.html', context={'form':Step3Form()}) # will add step3Form
+        return render(request, 'index.html', {})
     
     form = MyAuthenticationForm(request.POST or None)
     return render(request, 'login.html', {'form': form})
@@ -91,7 +91,15 @@ def step2View(request):
     return render(request, 'step2.html', {'form': Step2Form()})
 
 def step3View(request):
-    pass
+    if request.method == 'POST':
+        form = Step3Form(request.POST)
+        
+        if form.is_valid():
+            user = request.user
+            user.submit3(form.cleaned_data['email'])
+            return redirect('index')
+        
+    return render(request, 'step3.html', {'form': Step2Form()})
 
 def logoutUser(request):
     logout(request)
