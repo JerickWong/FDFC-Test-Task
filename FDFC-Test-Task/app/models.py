@@ -41,7 +41,7 @@ class CustomUser(AbstractUser):
     # Step 2
     last_name = models.CharField(_("last name"), max_length=150, blank=True)
     # Step 3
-    email = models.EmailField(_('email address'))
+    email = models.EmailField(_('email address'), blank=True)
     is_active = models.BooleanField(
         _("active"),
         default=True,

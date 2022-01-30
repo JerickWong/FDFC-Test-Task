@@ -26,19 +26,13 @@ def index(request):
 
 def auth_login(request):
     if request.method == 'POST':
-        form = MyAuthenticationForm(request.POST)
-        print('it is post')
-        if form.is_valid():
-            print('it is valid')
-            username = request.POST.get('username')
-            password = request.POST.get('password')
-            user = authenticate(request=request, username=username, password=password)
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        user = authenticate(request=request, username=username, password=password)
 
-            if user is not None:
-                login(request, user, backend='django.contrib.auth.backends.ModelBackend')                        
-                return redirect('index')
-        print(form.error_messages)
-        print(form.is_valid())
+        if user is not None:
+            login(request, user, backend='django.contrib.auth.backends.ModelBackend')                        
+            return redirect('index')
             
     return render(request, 'login.html', {'error': 'Wrong credentials', 'form': MyAuthenticationForm()})
 
