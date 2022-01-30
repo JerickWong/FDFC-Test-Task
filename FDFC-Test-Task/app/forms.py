@@ -54,3 +54,26 @@ class MyAuthenticationForm(AuthenticationForm):
             raise forms.ValidationError(_('User does not exist'))
         elif not user.is_active or not user.is_validated:
             raise forms.ValidationError('There was a problem with your login.', code='invalid_login')
+        
+class Step1Form(forms.Form):
+    first_name = forms.CharField(label=_("First name"), max_length=30, widget=forms.TextInput(attrs={'class' : 'input', 'placeholder': "Enter your first name"}))
+    
+    def clean_first_name(self):
+        data = self.cleaned_data["first_name"]
+        
+        if data == '':
+            raise ValidationError(_('Do not leave this field empty'))
+        
+        return data
+    
+
+class Step2Form(forms.Form):
+    last_name = forms.CharField(label=_("Last name"), max_length=30, widget=forms.TextInput(attrs={'class' : 'input', 'placeholder': "Enter your first name"}))
+    
+    def clean_last_name(self):
+        data = self.cleaned_data["last_name"]
+        
+        if data == '':
+            raise ValidationError(_('Do not leave this field empty'))
+        
+        return data

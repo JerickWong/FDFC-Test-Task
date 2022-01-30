@@ -93,10 +93,12 @@ class CustomUser(AbstractUser):
     
     def _transition(self, state):
         self.state = state
+        print('going step 2')
         self.save()
 
-    def submit1(self):
+    def submit1(self, first_name):
         # we omit storing the driver on the model for simplicity of the example
+        self.first_name = first_name
         self._transition(STATE_STEP2)
 
     def submit2(self):

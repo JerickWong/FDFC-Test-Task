@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from django.shortcuts import render
 
 from app.models import CustomUser
-from app.forms import MyAuthenticationForm, RegistrationForm
+from app.forms import MyAuthenticationForm, RegistrationForm, Step1Form, Step2Form
 from django.contrib.auth import login, logout, authenticate
 from django.views.decorators.csrf import csrf_protect
 
@@ -14,7 +14,7 @@ def index(request):
     # return HttpResponse("Hello, world. This is the index file.")
     if request.user.is_authenticated:
         if request.user.state == "Step 1":
-            return render(request, 'index.html', context={'user':request.user}) # will add step1Form
+            return render(request, 'step1.html', context={'form':Step1Form()}) # will add step1Form
         elif request.user.state == "Step 2":
             return render(request, 'step2.html', context={'user':request.user}) # will add step2Form
         elif request.user.state == "Step 3":
@@ -65,11 +65,28 @@ def registerView(request):
 
     return render(request, 'reg.html', {'form': form})
 
+from pprint import pprint
 def step1View(request):
-    pass
+    if request.method == 'POST':
+        form = Step1Form(request.POST)
+        # print('yoooooooo')
+        if form.is_valid():
+            # print('yoooooooo again')
+            user = request.user
+            # pprint(vars(form))
+            user.submit1(form.cleaned_data['first_name'])
+            return render(request, 'step2.html', {'form': Step2Form()})
 
 def step2View(request):
-    pass
+    # if request.method == 'POST':
+        # form = Step1Form(request.POST)
+        
+        # if form.is_valid:
+        #     user = request.user
+        #     user.submit1(form.cleaned_data['first_name'])
+        #     return render(request, 'step2.html', {'form': Step2Form()})
+        
+    return render(request, 'step2.html', {'form': Step2Form()})
 
 def step3View(request):
     pass
