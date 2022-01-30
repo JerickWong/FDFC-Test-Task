@@ -91,18 +91,22 @@ def step2View(request):
             if form.is_valid():
                 user = request.user
                 user.submit2(form.cleaned_data['last_name'])
-                return render(request, 'step3.html', {'form': Step2Form()})
+                return render(request, 'step3.html', {'form': Step3Form()})
         
     return redirect('index')
 
 def step3View(request):
     if request.method == 'POST':
-        form = Step3Form(request.POST)
-        
-        if form.is_valid():
+        if 'back2' in request.POST:
             user = request.user
-            user.submit3(form.cleaned_data['email'])
-            return redirect('index')
+            user.back2()
+        else:
+            form = Step3Form(request.POST)
+            
+            if form.is_valid():
+                user = request.user
+                user.submit3(form.cleaned_data['email'])
+                return redirect('index')
         
     return redirect('index')
 

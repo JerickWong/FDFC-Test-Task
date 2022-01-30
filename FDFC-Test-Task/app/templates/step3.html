@@ -70,6 +70,33 @@
             >Create an account</a
           >
           {% endcomment %}
+          <form
+            method="POST"
+            action="{% url 'step3' %}"
+            id="form-back"
+            class="register-form"
+          >
+            {% csrf_token %}
+            <div class="form-group form-button">
+              {% comment %}
+              <input
+                type="submit"
+                name="submit"
+                id="submit"
+                class="form-submit"
+                value="Back"
+              />
+              {% endcomment %}
+
+              <a
+                href="#"
+                class="signup-image-link"
+                onclick="document.getElementById('form-back').submit();"
+                >Back</a
+              >
+              <input type="hidden" name="back2" value="back2" />
+            </div>
+          </form>
         </div>
       </section>
     </div>
