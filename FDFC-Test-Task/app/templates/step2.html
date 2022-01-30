@@ -65,11 +65,19 @@
               </form>
             </div>
           </div>
-          {% comment %}
-          <a href="{% url 'register' %}" class="signup-image-link"
-            >Create an account</a
-          >
-          {% endcomment %}
+          <form method="POST" action="{% url 'step2' %}" class="register-form">
+            {% csrf_token %}
+            <div class="form-group form-button">
+              <input
+                type="submit"
+                name="submit"
+                id="submit"
+                class="form-submit"
+                value="Back"
+              />
+              <input type="hidden" name="back1" value="back1" />
+            </div>
+          </form>
         </div>
       </section>
     </div>

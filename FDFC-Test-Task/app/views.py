@@ -69,6 +69,7 @@ def step1View(request):
     if request.method == 'POST':
         if 'back1' in request.POST:
             # back1 transition
+            print('WE HERE BOI')
             pass
         else:
             form = Step1Form(request.POST)
@@ -81,12 +82,16 @@ def step1View(request):
 
 def step2View(request):
     if request.method == 'POST':
-        form = Step2Form(request.POST)
-        
-        if form.is_valid():
+        if 'back1' in request.POST:
             user = request.user
-            user.submit2(form.cleaned_data['last_name'])
-            return render(request, 'step3.html', {'form': Step2Form()})
+            user.back1()
+        else:
+            form = Step2Form(request.POST)
+            
+            if form.is_valid():
+                user = request.user
+                user.submit2(form.cleaned_data['last_name'])
+                return render(request, 'step3.html', {'form': Step2Form()})
         
     return redirect('index')
 
