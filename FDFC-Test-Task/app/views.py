@@ -77,7 +77,7 @@ def step1View(request):
                 user.submit1(form.cleaned_data['first_name'])
                 return render(request, 'step2.html', {'form': Step2Form()})
         
-    return render(request, 'step1.html', {'form': Step2Form()})
+    return redirect('index')
 
 def step2View(request):
     if request.method == 'POST':
@@ -88,7 +88,7 @@ def step2View(request):
             user.submit2(form.cleaned_data['last_name'])
             return render(request, 'step3.html', {'form': Step2Form()})
         
-    return render(request, 'step2.html', {'form': Step2Form()})
+    return redirect('index')
 
 def step3View(request):
     if request.method == 'POST':
@@ -99,7 +99,7 @@ def step3View(request):
             user.submit3(form.cleaned_data['email'])
             return redirect('index')
         
-    return render(request, 'step3.html', {'form': Step2Form()})
+    return redirect('index')
 
 def logoutUser(request):
     logout(request)
