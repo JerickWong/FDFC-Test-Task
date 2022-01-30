@@ -93,7 +93,6 @@ class CustomUser(AbstractUser):
     
     def _transition(self, state):
         self.state = state
-        print('going step 2')
         self.save()
 
     def submit1(self, first_name):
@@ -101,10 +100,12 @@ class CustomUser(AbstractUser):
         self.first_name = first_name
         self._transition(STATE_STEP2)
 
-    def submit2(self):
+    def submit2(self, last_name):
+        self.last_name = last_name
         self._transition(STATE_STEP3)
 
-    def submit3(self):
+    def submit3(self, email):
+        self.email = email
         self._transition(STATE_COMPLETED)
 
     def back1(self):

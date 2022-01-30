@@ -11,7 +11,6 @@ class RegistrationForm(forms.ModelForm):
     username = forms.CharField(max_length=100, widget=forms.TextInput(attrs={'class' : 'input', 'placeholder': "Your username"}))
     password = forms.CharField(widget=forms.PasswordInput(attrs={'class' : 'input', 'placeholder': "Your password"}))
     confirm_password = forms.CharField(widget=forms.PasswordInput(attrs={'class' : 'input', 'placeholder': "Repeat password"}))
-    email = forms.EmailField(widget=forms.TextInput(attrs={'class' : 'input', 'placeholder': "Your email"}))
 
     def clean_id_num(self):
         cleaned_data = super().clean()
@@ -19,19 +18,19 @@ class RegistrationForm(forms.ModelForm):
         data = self.cleaned_data.get('password')
         data2 = self.cleaned_data.get('confirm_password')
 
-        string_check= re.compile('[@_!#$%^&*()<>?/\|}{~:]')         
+        # string_check= re.compile('[@_!#$%^&*()<>?/\|}{~:]')         
 
-        rules = [lambda data: any(x.isupper() for x in data), # must have at least one uppercase
-        lambda data: any(x.islower() for x in data),  # must have at least one lowercase
-        lambda data: any(x.isdigit() for x in data),  # must have at least one digit
-        lambda data: len(data) >= 8,                  # must be at least 8 characters
-        lambda data: string_check.search(data) != None,  # must have at least one special character
-        # lambda data: data == data2,  # must be equal to the confirm password
-        ]        
+        # rules = [lambda data: any(x.isupper() for x in data), # must have at least one uppercase
+        # lambda data: any(x.islower() for x in data),  # must have at least one lowercase
+        # lambda data: any(x.isdigit() for x in data),  # must have at least one digit
+        # lambda data: len(data) >= 8,                  # must be at least 8 characters
+        # lambda data: string_check.search(data) != None,  # must have at least one special character
+        # # lambda data: data == data2,  # must be equal to the confirm password
+        # ]        
         
-        if not all(rule(data) for rule in rules):
-            raise ValidationError(_('Password must have at least one uppercase, one lowercase, and a special character with a minimum of 8 characters.'))            
-        elif data != data2:
+        # if not all(rule(data) for rule in rules):
+        #     raise ValidationError(_('Password must have at least one uppercase, one lowercase, and a special character with a minimum of 8 characters.'))            
+        if data != data2:
             raise ValidationError(_('Password and confirm password must match.'))
         else:
             return data
@@ -68,7 +67,7 @@ class Step1Form(forms.Form):
     
 
 class Step2Form(forms.Form):
-    last_name = forms.CharField(label=_("Last name"), max_length=30, widget=forms.TextInput(attrs={'class' : 'input', 'placeholder': "Enter your first name"}))
+    last_name = forms.CharField(label=_("Last name"), max_length=30, widget=forms.TextInput(attrs={'class' : 'input', 'placeholder': "Enter your last name"}))
     
     def clean_last_name(self):
         data = self.cleaned_data["last_name"]
@@ -77,3 +76,12 @@ class Step2Form(forms.Form):
             raise ValidationError(_('Do not leave this field empty'))
         
         return data
+
+class Step3Form(forms.Form):
+    email = forms.EmailField(widget=forms.TextInput(attrs={'class' : 'input', 'placeholder': "Your email"}))
+    
+    def clean_email(self):
+        data = self.cleaned_data["email"]
+        
+        return data
+    

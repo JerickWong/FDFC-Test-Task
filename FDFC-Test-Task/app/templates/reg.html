@@ -35,17 +35,19 @@
                   ></label>
                   {{ form.username }}
                 </div>
+                {% comment %}
                 <div class="form-group">
                   <label for="email"><i class="zmdi zmdi-email"></i></label>
-                  {% comment %}
+
                   <input
                     type="email"
                     name="email"
                     id="email"
                     placeholder="Your Email"
                   />
-                  {% endcomment %} {{ form.email }}
+                  {{ form.email }}
                 </div>
+                {% endcomment %}
                 <div class="form-group">
                   <label for="pass"><i class="zmdi zmdi-lock"></i></label>
                   {% comment %}
