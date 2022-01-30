@@ -24,6 +24,12 @@
         <p>{{ error }}</p>
         {% endif %}
         <div class="container">
+          <a
+            href="{% url 'logout' %}"
+            class="signup-image-link"
+            style="position: absolute; top: 10px; right: 25px"
+            >Logout
+          </a>
           <div class="signin-content" style="justify-content: center">
             <div class="signin-form">
               <h2 class="form-title">Step 3</h2>
